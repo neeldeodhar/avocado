@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[10]:
+# In[2]:
 
 
 #downloading dataset, importing libraries
@@ -27,7 +27,7 @@ from sklearn.metrics import mean_squared_error
 from sklearn.svm import SVR
 
 
-# In[11]:
+# In[3]:
 
 
 #reading the dataset, deleting missing value entries
@@ -40,14 +40,14 @@ df.head()
 df.dropna()
 
 
-# In[12]:
+# In[4]:
 
 
 #printing columns
 df.columns
 
 
-# In[13]:
+# In[5]:
 
 
 # encoding "type" and selecting features
@@ -61,7 +61,7 @@ selected_features = df[['Total Volume','4046', '4225', 'Total Bags', 'Small Bags
 display(selected_features)
 
 
-# In[14]:
+# In[6]:
 
 
 #selecting and scaling X variable (selected features)
@@ -70,7 +70,7 @@ scaler = StandardScaler()
 X = scaler.fit_transform(selected_features)
 
 
-# In[15]:
+# In[7]:
 
 
 # defining y variable
@@ -78,7 +78,7 @@ X = scaler.fit_transform(selected_features)
 y = df['AveragePrice'].values
 
 
-# In[16]:
+# In[8]:
 
 
 #creating a split (train/test)
@@ -92,7 +92,7 @@ X_test, X_val, y_test, y_val = train_test_split(X_test_val, y_test_val, test_siz
 # now the train/validate/test split will be 80%/10%/10%
 
 
-# In[17]:
+# In[9]:
 
 
 #training KN regressor for testing
@@ -105,20 +105,7 @@ for i in range(1,100):
     score.append (mean_squared_error(y_test, outputs))
 
 
-# In[18]:
-
-
-#training KN regressor for validation
-score_val = []
-for i in range(1,100):
-    knn_val = KNeighborsRegressor(n_neighbors = i)
-    knn_val.fit(X_train, y_train)
-    outputs_val = knn_val.predict(X_val)
-    
-    score_val.append (mean_squared_error(y_val, outputs_val))
-
-
-# In[19]:
+# In[10]:
 
 
 #plotting accuracy percentage vs n_neighbors
@@ -132,21 +119,14 @@ plt.ylabel("Accuracy Rate")
 plt.show()
 
 
-# In[20]:
+# In[11]:
 
 
 #printing R squared score (test)
 knn.score(X_test, y_test)
 
 
-# In[21]:
-
-
-#printing R squared score (test)
-knn.score(X_val, y_val)
-
-
-# In[22]:
+# In[12]:
 
 
 #visualization to determine average price per region
@@ -156,7 +136,7 @@ Av = sns.barplot(x = "AveragePrice", y = "region", data = df)
 
 
 
-# In[23]:
+# In[13]:
 
 
 #average price of avocados by type
@@ -165,7 +145,7 @@ plt.title("Avg.Price of Avocados by type")
 Av = sns.barplot(x="type", y= "AveragePrice", data = df)
 
 
-# In[24]:
+# In[14]:
 
 
 #training SVR Regressor model withmax iterations of 10,000
@@ -178,11 +158,18 @@ for i in ['linear', 'poly', 'rbf', 'sigmoid']:
     print (i, scores)
 
 
-# In[26]:
+# In[15]:
 
 
 #conclusion
 print ("KNN regressor offer's higher accuracy as compared to the SVR Regressor. However, the 'rbf' kernel's accuracy is close enough")
+
+
+# In[16]:
+
+
+#printing R squared score (test)
+knn.score(X_val, y_val)
 
 
 # In[ ]:
